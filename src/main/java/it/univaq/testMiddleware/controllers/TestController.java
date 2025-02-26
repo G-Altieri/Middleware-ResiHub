@@ -15,6 +15,6 @@ public class TestController {
 
     @GetMapping("/test")
     public String test() {
-        return "🚀 Questa è una route di test!";
+        return "🚀 Questa è una route di test! protetta";
     }
 }

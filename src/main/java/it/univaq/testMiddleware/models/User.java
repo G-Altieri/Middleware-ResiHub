@@ -1,5 +1,6 @@
 package it.univaq.testMiddleware.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,9 +26,11 @@ public class User {
 
     // Lista dei token associati all'utente (già presente)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore  // Aggiungi questa annotazione per non serializzare tokens
     private List<Token> tokens;
 
     // Relazione bidirezionale con Condominio (opzionale, se vuoi vedere i condomini gestiti)
     @OneToMany(mappedBy = "amministratore", cascade = CascadeType.ALL)
+    @JsonIgnore  // Aggiungi questa annotazione per non serializzare tokens
     private List<Condominio> condominiGestiti;
 }

@@ -24,7 +24,6 @@ public class ParametroDispositivo {
     @Column(name = "unita_misura")
     private String unitaMisura;
 
-
     // Nuove colonne per il range di valori (ipotizziamo valori numerici come Double)
     @Column(name = "val_min")
     private Double valMin;

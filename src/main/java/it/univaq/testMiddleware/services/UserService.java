@@ -31,4 +31,10 @@ public class UserService implements UserDetailsService {
                 .roles("USER")
                 .build();
     }
+
+    // Metodo custom per ottenere il dominio User a partire dal username
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utente non trovato: " + username));
+    }
 }

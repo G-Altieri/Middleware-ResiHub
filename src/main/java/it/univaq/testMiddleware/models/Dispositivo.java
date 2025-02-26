@@ -1,5 +1,7 @@
 package it.univaq.testMiddleware.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,14 +29,16 @@ public class Dispositivo {
     // Relazione con Condominio (FK)
     @ManyToOne
     @JoinColumn(name = "condominio_id")
+    @JsonIgnoreProperties({"tokens"})
     private Condominio condominio;
 
     // 1-N con ParametroDispositivo
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
+    @JsonIgnore  // Esclude questo campo dalla serializzazione
     private List<ParametroDispositivo> parametriDispositivo;
-
 
     // 1-N con StoricoEvento
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
+    @JsonIgnore  // Esclude questo campo dalla serializzazione
     private List<StoricoEvento> storicoEventi;
 }
