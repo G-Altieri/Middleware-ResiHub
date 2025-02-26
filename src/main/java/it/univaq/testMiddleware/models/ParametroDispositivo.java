@@ -15,8 +15,23 @@ public class ParametroDispositivo {
     @Column(name = "id_parametro")
     private Long idParametro;
 
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "tipologia")
+    private String tipologia;
+
     @Column(name = "unita_misura")
     private String unitaMisura;
+
+
+    // Nuove colonne per il range di valori (ipotizziamo valori numerici come Double)
+    @Column(name = "val_min")
+    private Double valMin;
+
+    @Column(name = "val_max")
+    private Double valMax;
+
 
     // Relazione con Dispositivo
     @ManyToOne

@@ -8,3 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface StoricoEventoRepository extends JpaRepository<StoricoEvento, Long> {
     // query personalizzate, se necessarie
 }
+

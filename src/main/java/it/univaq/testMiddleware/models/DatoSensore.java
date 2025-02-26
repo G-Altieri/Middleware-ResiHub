@@ -25,6 +25,6 @@ public class DatoSensore {
 
     // Relazione con Dispositivo
     @ManyToOne
-    @JoinColumn(name = "dispositivo_id")
-    private Dispositivo dispositivo;
+    @JoinColumn(name = "parametro_id")
+    private ParametroDispositivo parametro;
 }

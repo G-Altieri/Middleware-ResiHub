@@ -33,9 +33,6 @@ public class Dispositivo {
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
     private List<ParametroDispositivo> parametriDispositivo;
 
-    // 1-N con DatoSensore
-    @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
-    private List<DatoSensore> datiSensori;
 
     // 1-N con StoricoEvento
     @OneToMany(mappedBy = "dispositivo", cascade = CascadeType.ALL)
