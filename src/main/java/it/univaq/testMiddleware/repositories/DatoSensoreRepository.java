@@ -14,4 +14,13 @@ public interface DatoSensoreRepository extends JpaRepository<DatoSensore, Long> 
             Long idDispositivo, Instant start, Instant end);
 
     List<DatoSensore> findByParametroIn(List<ParametroDispositivo> parametri);
+
+    // Nuovo metodo: restituisce i dati sensore per un parametro in un intervallo di tempo
+    List<DatoSensore> findByParametroAndTimestampBetween(ParametroDispositivo parametro, Instant start, Instant end);
+
+    // Nuovo metodo: restituisce tutti i dati sensore per un dato parametro
+    List<DatoSensore> findByParametro(ParametroDispositivo parametro);
+
+    // Metodo per recuperare l'ultimo dato sensore per un dato parametro
+    DatoSensore findFirstByParametroOrderByTimestampDesc(ParametroDispositivo parametro);
 }

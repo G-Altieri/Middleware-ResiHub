@@ -31,6 +31,8 @@ public class ParametroDispositivo {
     @Column(name = "val_max")
     private Double valMax;
 
+    @Column(name = "max_delta")
+    private Double maxDelta;
 
     // Relazione con Dispositivo
     @ManyToOne
