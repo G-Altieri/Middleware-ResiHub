@@ -8,4 +8,12 @@ public class CondominioDTO {
     private String nome;
     private String indirizzo;
     private UserDTO amministratore;
+
+
+    private Integer annoCostruzione;
+    private String classeEnergetica;
+    private Integer numeroPiani;
+    private String regolamenti;
+    private Double superficie;
+    private Integer unitaAbitative;
 }

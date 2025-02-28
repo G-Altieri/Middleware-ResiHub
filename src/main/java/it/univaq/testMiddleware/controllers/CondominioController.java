@@ -210,7 +210,14 @@ public class CondominioController {
         dto.setIdCondominio(condominio.getIdCondominio());
         dto.setNome(condominio.getNome());
         dto.setIndirizzo(condominio.getIndirizzo());
-        // Se desideri includere l'amministratore, mappalo:
+        dto.setAnnoCostruzione(condominio.getAnnoCostruzione());
+        dto.setClasseEnergetica(condominio.getClasseEnergetica());
+        dto.setNumeroPiani(condominio.getNumeroPiani());
+        dto.setRegolamenti(condominio.getRegolamenti());
+        dto.setSuperficie(condominio.getSuperficie());
+        dto.setUnitaAbitative(condominio.getUnitaAbitative());
+
+        // Mappaggio dell'amministratore, se presente
         if (condominio.getAmministratore() != null) {
             dto.setAmministratore(mapToUserDTO(condominio.getAmministratore()));
         }
@@ -223,6 +230,12 @@ public class CondominioController {
         dto.setIdCondominio(condominio.getIdCondominio());
         dto.setNome(condominio.getNome());
         dto.setIndirizzo(condominio.getIndirizzo());
+        dto.setAnnoCostruzione(condominio.getAnnoCostruzione());
+        dto.setClasseEnergetica(condominio.getClasseEnergetica());
+        dto.setNumeroPiani(condominio.getNumeroPiani());
+        dto.setRegolamenti(condominio.getRegolamenti());
+        dto.setSuperficie(condominio.getSuperficie());
+        dto.setUnitaAbitative(condominio.getUnitaAbitative());
         return dto;
     }
 

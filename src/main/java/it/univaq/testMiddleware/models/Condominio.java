@@ -23,6 +23,16 @@ public class Condominio {
     private String nome;
     private String indirizzo;
 
+    // Nuovi campi aggiunti
+    private String classeEnergetica;
+    private Integer unitaAbitative;     // Numero di unità abitative
+    private Integer annoCostruzione;
+    private Integer numeroPiani;
+    private Double superficie;           // Superficie in metri quadrati
+
+    @Column(length = 2000)
+    private String regolamenti;          // Norme e regolamenti condominiali
+
     // Relazione con User (l'amministratore)
     @ManyToOne
     @JoinColumn(name = "amministratore_id") // FK verso "utenti"
