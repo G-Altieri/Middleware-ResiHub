@@ -217,12 +217,16 @@ public class CondominioController {
         dto.setSuperficie(condominio.getSuperficie());
         dto.setUnitaAbitative(condominio.getUnitaAbitative());
 
-        // Mappaggio dell'amministratore, se presente
+        // Imposta le coordinate se presenti
+        dto.setLatitudine(condominio.getLatitudine());
+        dto.setLongitudine(condominio.getLongitudine());
+
         if (condominio.getAmministratore() != null) {
             dto.setAmministratore(mapToUserDTO(condominio.getAmministratore()));
         }
         return dto;
     }
+
 
     // Versione senza amministratore (per lista di condomini)
     private CondominioDTO mapToCondominioDTOWithoutAdmin(Condominio condominio) {
@@ -236,6 +240,9 @@ public class CondominioController {
         dto.setRegolamenti(condominio.getRegolamenti());
         dto.setSuperficie(condominio.getSuperficie());
         dto.setUnitaAbitative(condominio.getUnitaAbitative());
+        // Imposta le coordinate
+        dto.setLatitudine(condominio.getLatitudine());
+        dto.setLongitudine(condominio.getLongitudine());
         return dto;
     }
 

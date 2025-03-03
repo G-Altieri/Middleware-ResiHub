@@ -1,9 +1,13 @@
 package it.univaq.testMiddleware.controllers;
 
+import it.univaq.testMiddleware.DTO.UserDTO;
 import it.univaq.testMiddleware.models.User;
 import it.univaq.testMiddleware.repositories.UserRepository;
 import it.univaq.testMiddleware.services.JwtService;
 import it.univaq.testMiddleware.services.TokenService;
+import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,5 +82,41 @@ public class AuthController {
         tokenService.revokeToken(token);
 
         return Map.of("message", "Logout eseguito, token invalidato con successo!");
+    }
+
+    // Nuovo endpoint per ottenere i dati del profilo utente
+    @GetMapping("/profile")
+    @Transactional
+    public ResponseEntity<UserDTO> getProfile(@RequestHeader("Authorization") String authHeader) {
+        // Rimuovo il prefisso "Bearer " dal token
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String token = authHeader.substring(7);
+
+        // Verifica se il token è valido
+        if (tokenService.findValidToken(token).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // Estrai il nome utente dal token
+        String username = jwtService.extractUsername(token);
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        User user = userOpt.get();
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setNome(user.getNome());
+        dto.setCognome(user.getCognome());
+        dto.setEmail(user.getEmail());
+        dto.setNumeroDiTelefono(user.getNumeroDiTelefono());
+        dto.setDataNascita(user.getDataNascita());
+        dto.setNumeroCondominiGestiti(user.getCondominiGestiti() != null ? user.getCondominiGestiti().size() : 0);
+        System.out.println(dto);
+        return ResponseEntity.ok(dto);
     }
 }

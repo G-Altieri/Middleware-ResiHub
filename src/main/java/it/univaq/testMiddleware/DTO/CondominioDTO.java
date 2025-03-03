@@ -9,11 +9,14 @@ public class CondominioDTO {
     private String indirizzo;
     private UserDTO amministratore;
 
-
     private Integer annoCostruzione;
     private String classeEnergetica;
     private Integer numeroPiani;
     private String regolamenti;
     private Double superficie;
     private Integer unitaAbitative;
+
+    // Aggiungi le coordinate per la mappa
+    private Double latitudine;
+    private Double longitudine;
 }

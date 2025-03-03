@@ -33,6 +33,10 @@ public class Condominio {
     @Column(length = 2000)
     private String regolamenti;          // Norme e regolamenti condominiali
 
+    // Coordinate per la mappa
+    private Double latitudine;
+    private Double longitudine;
+
     // Relazione con User (l'amministratore)
     @ManyToOne
     @JoinColumn(name = "amministratore_id") // FK verso "utenti"

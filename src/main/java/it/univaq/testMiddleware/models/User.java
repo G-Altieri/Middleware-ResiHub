@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,15 @@ public class User {
     private Long id;
 
     private String username;
+
+    // Nuovi campi per il profilo utente
+    private String nome;
+    private String cognome;
+    private String email;
+    private String numeroDiTelefono;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataNascita;
 
     @Column(nullable = false)
     private String password; // Deve essere criptata con BCrypt!
