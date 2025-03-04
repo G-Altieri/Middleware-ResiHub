@@ -25,6 +25,7 @@ public class Dispositivo {
     private String modello;
     private String tipo;
     private String stato;
+    private String adapterType = "default";
 
     // Relazione con Condominio (FK)
     @ManyToOne

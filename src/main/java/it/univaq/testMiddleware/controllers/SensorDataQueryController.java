@@ -80,6 +80,7 @@ public class SensorDataQueryController {
             parametroDTO.setUnitaMisura(sample.getParametro().getUnitaMisura());
             parametroDTO.setValMin(sample.getParametro().getValMin());
             parametroDTO.setValMax(sample.getParametro().getValMax());
+            parametroDTO.setMaxDelta(sample.getParametro().getMaxDelta());
 
             // Mappa ogni DatoSensore in un SensorValueDTO
             List<SensorValueDTO> valori = datiParametro.stream().map(ds -> {
@@ -90,7 +91,7 @@ public class SensorDataQueryController {
                 return dto;
             }).collect(Collectors.toList());
 
-            parametroDTO.setValori(valori);
+       //     parametroDTO.setValori(valori);
             parametriDTO.add(parametroDTO);
         }
 

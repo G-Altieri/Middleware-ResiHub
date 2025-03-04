@@ -13,5 +13,7 @@ public class ParametroDTO {
     private String unitaMisura;
     private Double valMin;
     private Double valMax;
-    private List<SensorValueDTO> valori;  // I dati sensore per questo parametro
+    private Double maxDelta;
+    //private List<SensorValueDTO> valori;  // I dati sensore per questo parametro
+
 }
