@@ -32,6 +32,7 @@ public class User {
     private Date dataNascita;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password; // Deve essere criptata con BCrypt!
 
     // Lista dei token associati all'utente (già presente)
