@@ -19,6 +19,8 @@ public class StoricoEvento {
 
     private String descrizione;
 
+    private Boolean confermaLettura;
+
     @Column(name = "timestamp")
     private Instant timestamp;
 
