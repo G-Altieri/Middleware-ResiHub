@@ -100,9 +100,10 @@ public class ZcsAzzurroAdapter implements ExternalDataAdapter {
         // Qui, rigo per rigo, crei i parametri attesi.
         // Per ogni campo definito nella risposta, se non esiste il parametro nel dispositivo,
         // viene creato e viene salvato il relativo dato sensore usando il valore e il timestamp ("lastUpdate").
-        processSensorField("energyGeneratingTotal", "energia generata", "kw", 0.0, 3000.0, sensorData, dispositivo);
+        processSensorField("energyGeneratingTotal", "energia generata", "kw", 0.0, 8000.0, sensorData, dispositivo);
         processSensorField("powerGenerating", "potenza generata", "W", 0.0, 1000.0, sensorData, dispositivo);
-        processSensorField("energyGenerating", "energia corrente", "kw", 0.0, 1000.0, sensorData, dispositivo);
+        processSensorField("energyGenerating", "energia corrente", "kw", 0.0, 10.0, sensorData, dispositivo);
+
         // Se necessario, puoi aggiungere altri processi per altri campi come "thingFind" (se intendi salvarlo come parametro)
 
         dispositivoRepository.save(dispositivo);
@@ -146,13 +147,13 @@ public class ZcsAzzurroAdapter implements ExternalDataAdapter {
         if (fieldValueObj == null) return; // Salta se il campo non esiste
         String fieldValue = fieldValueObj.toString();
 
-        // Ottieni il timestamp dal campo "lastUpdate" della risposta
+        // Ottieni il timestamp dal campo "lastUpdate" della risposta esterna
         Object lastUpdateObj = sensorData.get("lastUpdate");
-        Instant timestamp;
+        Instant externalTimestamp;
         try {
-            timestamp = lastUpdateObj != null ? Instant.parse(lastUpdateObj.toString()) : Instant.now();
+            externalTimestamp = lastUpdateObj != null ? Instant.parse(lastUpdateObj.toString()) : Instant.now();
         } catch (Exception e) {
-            timestamp = Instant.now();
+            externalTimestamp = Instant.now();
         }
 
         // Cerca se il parametro esiste già nel dispositivo
@@ -163,14 +164,14 @@ public class ZcsAzzurroAdapter implements ExternalDataAdapter {
                     .findFirst().orElse(null);
         }
         if (parametro == null) {
-            // Crea il nuovo parametro secondo la configurazione dichiarata "a mano"
+            // Crea il nuovo parametro se non esiste
             parametro = new ParametroDispositivo();
             parametro.setNome(fieldName);
             parametro.setTipologia(tipologia);
             parametro.setUnitaMisura(unitaMisura);
             parametro.setValMin(valMin);
             parametro.setValMax(valMax);
-            parametro.setMaxDelta(100.0); // valore di default, puoi modificarlo se necessario
+            parametro.setMaxDelta(100.0); // valore di default, modificabile se necessario
             parametro.setDispositivo(dispositivo);
             parametro = parametroDispositivoRepository.save(parametro);
             if (dispositivo.getParametriDispositivo() == null) {
@@ -179,13 +180,22 @@ public class ZcsAzzurroAdapter implements ExternalDataAdapter {
             dispositivo.getParametriDispositivo().add(parametro);
         }
 
-        // Crea e salva il dato sensore associato a questo parametro
-        DatoSensore datoSensore = new DatoSensore();
-        datoSensore.setValore(fieldValue);
-        datoSensore.setTimestamp(timestamp);
-        datoSensore.setParametro(parametro);
-        datoSensoreRepository.save(datoSensore);
+        // Recupera l'ultimo dato sensore per questo parametro
+        DatoSensore lastDato = datoSensoreRepository.findFirstByParametroOrderByTimestampDesc(parametro);
+        // Se esiste già un dato e il suo timestamp è uguale o successivo a quello dell'API, non creiamo un nuovo record.
+        if (lastDato != null && !lastDato.getTimestamp().isBefore(externalTimestamp)) {
+            // Non fare nulla: usiamo il record già presente
+            return;
+        }
+
+        // Altrimenti, crea e salva il nuovo dato sensore associato a questo parametro
+        DatoSensore nuovoDato = new DatoSensore();
+        nuovoDato.setValore(fieldValue);
+        nuovoDato.setTimestamp(externalTimestamp);
+        nuovoDato.setParametro(parametro);
+        datoSensoreRepository.save(nuovoDato);
     }
+
 
     // Metodi di mapping per costruire i DTO di risposta
 

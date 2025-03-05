@@ -151,6 +151,7 @@ public class RandomDataAdapter implements ExternalDataAdapter {
         dto.setUnitaMisura(parametro.getUnitaMisura());
         dto.setValMin(parametro.getValMin());
         dto.setValMax(parametro.getValMax());
+        dto.setMaxDelta(parametro.getMaxDelta());
         return dto;
     }
 }
